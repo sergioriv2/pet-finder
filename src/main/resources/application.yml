@@ -4,4 +4,4 @@ spring:
 
 data:
   mongodb:
-    uri: mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOST}.mongodb.net/${MONGODB_DATABASE}
+    uri: mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOST}/${MONGODB_DATABASE}
