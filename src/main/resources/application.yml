@@ -1,7 +1,6 @@
 spring:
   config:
     import: optional:file:.env[.properties]
-
-data:
-  mongodb:
-    uri: mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOST}/${MONGODB_DATABASE}
+  data:
+    mongodb:
+      uri: mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOST}/${MONGODB_DATABASE}

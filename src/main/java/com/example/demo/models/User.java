@@ -1,5 +1,8 @@
 package com.example.demo.models;
 
+import com.example.demo.serializers.CustomDateSerializer;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -15,21 +18,32 @@ import java.util.UUID;
 @Document("users")
 public class User {
     @Id
+    private String _id;
     private UUID id;
     private String username;
     private String email;
     private String password;
     @CreatedDate
     @Field(targetType = FieldType.DATE_TIME)
+    @JsonSerialize(using = CustomDateSerializer.class)
     private Date createdAt;
     @LastModifiedDate
     @Field(targetType = FieldType.DATE_TIME)
+    @JsonSerialize(using = CustomDateSerializer.class)
     private Date updatedAt;
 
     public User() {
         this.id = UUID.randomUUID();
         this.createdAt = new Date();
         this.updatedAt = new Date();
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     @Override

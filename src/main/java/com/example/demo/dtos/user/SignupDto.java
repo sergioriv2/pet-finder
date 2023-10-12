@@ -1,7 +1,22 @@
 package com.example.demo.dtos.user;
 
+import lombok.Builder;
+import lombok.Data;
+import org.springframework.stereotype.Component;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+@Data
+@Builder
 public class SignupDto {
+    @Email(message = "createdBy can not be null")
+    @NotNull(message = "createdBy can not be null")
     private String email;
+
+    @NotNull(message = "createdBy can not be null")
     private String password;
 
     public String getEmail() {
