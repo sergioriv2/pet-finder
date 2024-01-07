@@ -14,16 +14,14 @@ public class ResponseInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestURI = request.getRequestURI();
-        if (requestURI.startsWith("/auth/")) {
-            ApiResponse<?> apiResponse = ResponseBuilder.buildSuccessResponse();
-            String jsonResponse = new ObjectMapper().writeValueAsString(apiResponse);
 
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            response.getWriter().write(jsonResponse);
-            response.getWriter().flush();
-            return true;
-        }
+        ApiResponse<?> apiResponse = ResponseBuilder.buildSuccessResponse();
+        String jsonResponse = new ObjectMapper().writeValueAsString(apiResponse);
 
-        return false;
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.getWriter().write(jsonResponse);
+        response.getWriter().flush();
+        return true;
+
     }
 }

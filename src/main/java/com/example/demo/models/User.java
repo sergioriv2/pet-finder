@@ -2,6 +2,7 @@ package com.example.demo.models;
 
 import com.example.demo.serializers.CustomDateSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,12 +17,58 @@ import java.util.UUID;
 
 @Data
 @Document("users")
+@JsonIgnoreProperties({"password", "_id", "emailActivation"})
 public class User {
+
+    public static class UserEmailActivation {
+        @Field(targetType = FieldType.STRING, write = Field.Write.ALWAYS)
+        private String code;
+        @Field(targetType = FieldType.BOOLEAN)
+        private boolean wasActivated;
+        @Field(targetType = FieldType.DATE_TIME, write = Field.Write.ALWAYS)
+        @JsonSerialize(using = CustomDateSerializer.class)
+        private Date expiresAt;
+
+        public UserEmailActivation() {
+            this.code = null;
+            this.wasActivated = false;
+            this.expiresAt = null;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public boolean isWasActivated() {
+            return wasActivated;
+        }
+
+        public void setWasActivated(boolean wasActivated) {
+            this.wasActivated = wasActivated;
+        }
+
+        public Date getExpiresAt() {
+            return expiresAt;
+        }
+
+        public void setExpiresAt(Date expiresAt) {
+            this.expiresAt = expiresAt;
+        }
+    }
+
     @Id
     private String _id;
+    @Field(targetType = FieldType.STRING)
     private UUID id;
+    @Field(targetType = FieldType.STRING)
     private String username;
+    @Field(targetType = FieldType.STRING)
     private String email;
+    @Field(targetType = FieldType.STRING)
     private String password;
     @CreatedDate
     @Field(targetType = FieldType.DATE_TIME)
@@ -32,14 +79,26 @@ public class User {
     @JsonSerialize(using = CustomDateSerializer.class)
     private Date updatedAt;
 
+    private UserEmailActivation emailActivation;
+
     public User() {
         this.id = UUID.randomUUID();
         this.createdAt = new Date();
         this.updatedAt = new Date();
+
+        this.emailActivation = new UserEmailActivation();
     }
 
     public String get_id() {
         return _id;
+    }
+
+    public UserEmailActivation getEmailActivation() {
+        return emailActivation;
+    }
+
+    public void setEmailActivation(UserEmailActivation emailActivation) {
+        this.emailActivation = emailActivation;
     }
 
     public void set_id(String _id) {
@@ -115,3 +174,5 @@ public class User {
         this.updatedAt = updatedAt;
     }
 }
+
+
